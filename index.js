@@ -1,8 +1,12 @@
 const express=require('express');
 const app=express();
-
 const port=8000;
 
+// Calling routes
+app.use('/',require('./routes'));
+
+
+//Updating on the port
 app.listen(port,(err)=>{
     if(err){
         console.log(`Error while running on the port :${err}`);
