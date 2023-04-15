@@ -5,6 +5,9 @@ const port=8000;
 // Calling routes
 app.use('/',require('./routes'));
 
+//Setup our view engine
+app.set('view engine','ejs');
+app.set('views','./views');
 
 //Updating on the port
 app.listen(port,(err)=>{
