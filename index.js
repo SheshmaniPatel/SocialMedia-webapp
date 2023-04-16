@@ -1,6 +1,10 @@
 const express=require('express');
 const app=express();
 const port=8000;
+const expresslayout=require('express-ejs-layouts');
+
+//Calling express layout before routes 
+app.use(expresslayout);
 
 // Calling routes
 app.use('/',require('./routes'));
