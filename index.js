@@ -3,9 +3,10 @@ const app=express();
 const port=7000;
 const path = require('path');
 const expresslayout=require('express-ejs-layouts');
+const db=require('./config/mongoose');
 
 //Calling static for use
-app.use(express.static('assets'));
+app.use(express.static('./assets'));
 
 //Extracting style and script from sub pages to layouts
 app.set('layout extactStyles',true);
