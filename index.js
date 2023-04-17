@@ -1,7 +1,6 @@
 const express=require('express');
 const app=express();
 const port=7000;
-const path = require('path');
 const expresslayout=require('express-ejs-layouts');
 const db=require('./config/mongoose');
 
@@ -9,8 +8,8 @@ const db=require('./config/mongoose');
 app.use(express.static('./assets'));
 
 //Extracting style and script from sub pages to layouts
-app.set('layout extactStyles',true);
-app.set('layout extactScripts',true);
+app.set('layout extractStyles',true);
+app.set('layout extractScripts',true);
 
 //Calling express layout before routes 
 app.use(expresslayout);
