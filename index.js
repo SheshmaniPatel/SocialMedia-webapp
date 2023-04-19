@@ -5,6 +5,10 @@ const port=7000;
 const expresslayout=require('express-ejs-layouts');
 const db=require('./config/mongoose');
 
+//used for session cookie
+const session=require('express-session');
+const passport=require('passport');
+const passportLocal=require('./config/passport_local_startgy');
 
 app.use(express.urlencoded());
  
@@ -20,12 +24,28 @@ app.set('layout extractScripts',true);
 //Calling express layout before routes 
 app.use(expresslayout);
 
-// Calling routes
-app.use('/',require('./routes'));
+
 
 //Setup our view engine
 app.set('view engine','ejs');
 app.set('views','./views');
+
+app.use(session ({
+    name:'codeal',
+    //TODO change the secreate before the deployement on the server
+    secret:'somethingblah',
+    saveUninitialized:false,
+    resave:false,
+    cookie:{
+        maxAge:(1000*60*100)
+    }
+}))
+
+app.use(passport.initialize());
+app.use(passport.session());
+
+// Calling routes
+app.use('/',require('./routes'));
 
 //Updating on the port
 app.listen(port,(err)=>{
