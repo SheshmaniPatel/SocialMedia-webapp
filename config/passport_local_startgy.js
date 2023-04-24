@@ -28,7 +28,7 @@ passport.use(
   )
 );
 
-// serialise the user to decide which key is to be kept in the cookie
+// Serialise the user to decide which key is to be kept in the cookie
 passport.serializeUser((user, done) => {
   done(null, user.id);
 });
@@ -44,4 +44,22 @@ passport.deserializeUser((id, done) => {
   });
 });
 
-module.exports=passport;
+//Check if user is authanticated
+passport.checkAuthentication = function (request, response, next) {
+  //if User is signed in then pass the request to the next function(controler action)
+  if (request.isAuthenticated()) {
+    return next();
+  }
+  //If user is not signed-in
+  return response.redirect("/users/sign-in");
+};
+
+passport.setAuthenticatedUser = function (request, response, next) {
+  //request.user contain the current signed in from session cookie and we are just sending this to local view
+  if (request.isAuthenticated()) {
+    response.locals.user = request.user;
+  }
+  next();
+};
+
+module.exports = passport;

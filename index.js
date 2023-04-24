@@ -10,6 +10,7 @@ const db=require('./config/mongoose');
 const session=require('express-session');
 const passport=require('passport');
 const passportLocal=require('./config/passport_local_startgy');
+const MongoStore=require('connect-mongo')(session);
 
 app.use(express.urlencoded());
  
@@ -31,6 +32,7 @@ app.use(expresslayout);
 app.set('view engine','ejs');
 app.set('views','./views');
 
+// Mongo store is use to store the cookie in the db
 app.use(session ({
     name:'codeal',
     //TODO change the secreate before the deployement on the server
@@ -39,11 +41,21 @@ app.use(session ({
     resave:false,
     cookie:{
         maxAge:(1000*60*100)
-    }
-}))
+    },
+    store: new MongoStore({
+      mongooseConnection:db,
+      autoRemove:'disabled'
+    },
+        function(err){
+            console.log(err || 'Connect mongodb setup Ok')
+        }    
+    )
+}));
 
 app.use(passport.initialize());
 app.use(passport.session());
+
+app.use(passport.setAuthenticatedUser);
 
 // Calling routes
 app.use('/',require('./routes'));
