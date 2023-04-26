@@ -1,6 +1,15 @@
-module.exports.timeline=(request,response)=>{
-    return response.end('<h1>Welcome to the timeline page</h1>');
-}
-module.exports.feed=(request,response)=>{
-    return response.end('<h1>Welcome to the feed page</h1>');
-}
+ const post=require('../models/post');
+
+ module.exports.create=function(request,response){
+    post.create({
+        content:request.body.content,
+        user:request.user._id
+    },function(err,Post){
+        if(err){
+            console.log('Error while posting.....');
+            return;
+        }
+        return response.redirect('back');
+    });
+
+ }
