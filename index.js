@@ -11,6 +11,7 @@ const session=require('express-session');
 const passport=require('passport');
 const passportLocal=require('./config/passport_local_startgy');
 const MongoStore=require('connect-mongo')(session);
+ 
 
 app.use(express.urlencoded());
  
