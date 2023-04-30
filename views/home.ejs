@@ -1,8 +1,13 @@
-<link rel="stylesheet" href="/css/user_profile.css" />
-<h1>Lets post something</h1>
-<section id="post">
-  <form action="/post/create" id="new-post" method="post">
-    <textarea name="content"   cols="30" rows="3"></textarea>
-    <input type="submit" value="Post">
+
+<h1>
+  Codeial / <%= title %>
+</h1>
+
+
+<section id="feed-posts">
+  <h4>Posts</h4>
+  <form action="/post/create" id="new-post-form" method="POST">
+      <textarea name="content" cols="30" rows="3" placeholder="Type Here..."></textarea>
+      <input type="submit" value="Post">
   </form>
 </section>
