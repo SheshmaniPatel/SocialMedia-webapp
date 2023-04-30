@@ -59,7 +59,7 @@ passport.setAuthenticatedUser = function (request, response, next) {
   if (request.isAuthenticated()) {
     response.locals.user = request.user;
   }
-  next();
+  return next();
 };
 
 module.exports = passport;
