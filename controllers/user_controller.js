@@ -2,8 +2,11 @@ const passport = require("passport");
 const User = require("../models/user");
 
 module.exports.profile = (request, response) => {
-  return response.render("user", {
-    title: "user",
+  User.findById(request.params.id, (err, user) => {
+    return response.render("user", {
+      title: "user",
+      profile_user: user,
+    });
   });
 };
 
