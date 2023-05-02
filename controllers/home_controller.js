@@ -11,6 +11,12 @@ module.exports.home = (request, response) => {
   post
     .find({})
     .populate("user")
+    .populate({
+      path: "comments",
+      populate: {
+        path: "user",
+      },
+    })
     .exec((err, posts) => {
       return response.render("Home", {
         title: "Codial | Home",
