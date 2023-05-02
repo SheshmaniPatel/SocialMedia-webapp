@@ -19,6 +19,13 @@
               
           <li>
               <p>
+                <% if(locals.user && post.user.id == locals.user.id) { %>
+                    <small>
+                        <a href="/posts/destroy/<%= post.id %>">X</a>
+                    </small>
+
+                    <% } %>
+
                   <%= post.content %>
                   <br>
                   <small>
