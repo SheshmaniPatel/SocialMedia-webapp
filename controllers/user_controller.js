@@ -1,5 +1,6 @@
 const passport = require("passport");
 const User = require("../models/user");
+ 
 
 module.exports.profile = (request, response) => {
   User.findById(request.params.id, (err, user) => {
@@ -9,6 +10,18 @@ module.exports.profile = (request, response) => {
     });
   });
 };
+
+// For updating the profile details
+module.exports.update=(request,response)=>{
+  if(request.user.id == request.params.id){
+    User.findByIdAndUpdate(request.params.id, request.body,(err,user)=>{
+      return response.redirect('back');
+    });
+  }else{
+    return response.status(401).send("Unauthorised");
+  }
+}
+
 
 // render the sign_Up page
 module.exports.signUp = (request, response) => {
