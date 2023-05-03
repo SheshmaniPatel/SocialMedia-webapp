@@ -21,9 +21,10 @@
   text-decoration: none;
   font-size: 18px;
   color: midnightblue;
+  transition: width 2s linear 1s;
 }
 #home-container #user-friends a:hover{
   text-decoration: solid;
-  font-size: 21px;
-  color: rgb(107, 107, 213);
+   text-decoration: underline;
+  color: rgb(125, 125, 222);
 }
