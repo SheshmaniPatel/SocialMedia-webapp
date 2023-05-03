@@ -1,0 +1,29 @@
+#home-container {
+  display: flex;
+}
+#home-container #feed-posts {
+  width: 70%;
+  padding: 10px;
+}
+#home-container #user-friends {
+  width: 30%;
+  padding: 10px;
+  border-left: 1px solid lightgrey;
+  height: 100%;
+}
+#home-container #user-friends h3{
+  color: rgb(24, 114, 10);
+  font-size: 25px;
+   font-family: 'Franklin Gothic Medium', 'Arial Narrow', Arial, sans-serif;
+  
+}
+#home-container #user-friends a{
+  text-decoration: none;
+  font-size: 18px;
+  color: midnightblue;
+}
+#home-container #user-friends a:hover{
+  text-decoration: solid;
+  font-size: 21px;
+  color: rgb(107, 107, 213);
+}
