@@ -1,7 +1,7 @@
 const post = require("../models/post");
 const User = require("../models/user");
 
-module.exports.home = (request, response) => {
+module.exports.home = async (request, response) => {
   //  post.find({}, (err,posts)=>{
   //   return response.render('Home',{
   //     title:'Codial | Home',
@@ -9,22 +9,24 @@ module.exports.home = (request, response) => {
   //   });
 
   //    POpulate the users of each post
-  post
-    .find({})
-    .populate("user")
-    .populate({
-      path: "comments",
-      populate: {
-        path: "user",
-      },
-    })
-    .exec((err, posts) => {
-      User.find({}, (err, users) => {
-        return response.render("Home", {
-          title: "Codial | Home",
-          posts: posts,
-          all_user: users,
-        });
+  try {
+    let posts = await post
+      .find({})
+      .populate("user")
+      .populate({
+        path: "comments",
+        populate: {
+          path: "user",
+        },
       });
+    let users = await User.find({});
+    return response.render("Home", {
+      title: "Codial | Home",
+      posts: posts,
+      all_user: users,
     });
+  } catch (error) {
+    console.log("Error", error);
+    return;
+  }
 };

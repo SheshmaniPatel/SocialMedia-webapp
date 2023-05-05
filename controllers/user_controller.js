@@ -1,27 +1,33 @@
 const passport = require("passport");
 const User = require("../models/user");
- 
 
-module.exports.profile = (request, response) => {
-  User.findById(request.params.id, (err, user) => {
+module.exports.profile = async (request, response) => {
+  try {
+    let user = await User.findById(request.params.id);
     return response.render("user", {
       title: "user",
       profile_user: user,
     });
-  });
+  } catch (error) {
+    console.log("Error", error);
+    return;
+  }
 };
 
 // For updating the profile details
-module.exports.update=(request,response)=>{
-  if(request.user.id == request.params.id){
-    User.findByIdAndUpdate(request.params.id, request.body,(err,user)=>{
-      return response.redirect('back');
-    });
-  }else{
-    return response.status(401).send("Unauthorised");
+module.exports.update = async (request, response) => {
+  try {
+    if (request.user.id == request.params.id) {
+      let user = await User.findByIdAndUpdate(request.params.id, request.body);
+      return response.redirect("back");
+    } else {
+      return response.status(401).send("Unauthorised");
+    }
+  } catch (error) {
+    console.log("Error", error);
+    return;
   }
-}
-
+};
 
 // render the sign_Up page
 module.exports.signUp = (request, response) => {
@@ -46,29 +52,25 @@ module.exports.signIn = (request, response) => {
 };
 
 //get the sign-Up data
-module.exports.create = (request, response) => {
-  if (request.body.password != request.body.confirm_password) {
-    return response.redirect("back");
-  }
-
-  User.findOne({ email: request.body.email }, function (err, user) {
-    if (err) {
-      console.log("Error in finding user in Singing up");
-      return;
+module.exports.create = async (request, response) => {
+  try {
+    if (request.body.password != request.body.confirm_password) {
+      return response.redirect("back");
     }
 
+    let user = await User.findOne({ email: request.body.email });
+
     if (!user) {
-      User.create(request.body, function (err, user) {
-        if (err) {
-          console.log("Error in finding user in Singing up");
-          return;
-        }
-        return response.redirect("/users/sign-in");
-      });
+      let users = await User.create(request.body);
+
+      return response.redirect("/users/sign-in");
     } else {
       return response.redirect("back");
     }
-  });
+  } catch (error) {
+    console.log("Error", error);
+    return;
+  }
 };
 
 // sign-In and create the session for user
