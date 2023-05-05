@@ -13,11 +13,11 @@ module.exports.create = async (request, response) => {
 
       post.comments.push(comment);
       post.save();
-
+        request.flash("success","Comment done on the post");
       response.redirect("/");
     }
   } catch (error) {
-    console.log("Error", error);
+    request.flash("error",error)
     return;
   }
 };
@@ -33,13 +33,14 @@ module.exports.destroy = async (request, response) => {
       let post = await Post.findByIdAndUpdate(postId, {
         $pull: { comments: request.params.id },
       });
-
+      request.flash("success","Comment deleted from the post");
       return response.redirect("back");
     } else {
+      request.flash("error","Error while deleting");
       return response.redirect("back");
     }
   } catch (error) {
-    console.log("Error", error);
+    request.flash("error",error);
     return;
   }
 };

@@ -9,17 +9,19 @@ passport.use(
   new LocalStrategy(
     {
       usernameField: "email",
+      passReqToCallback:true
     },
 
-    function (email, password, done) {
+    function (request,email, password, done) {
       // Finding a user and establish the Identity
       User.findOne({ email: email }, (err, user) => {
         if (err) {
-          console.log("Error in finding the --> passport");
+          request.flash("error",err);
           return done(err);
         }
         if (!user || user.password != password) {
-          console.log("Username/Password is not correct !!");
+           
+          request.flash("error","Invalid Username/Password ");
           return done(null, false);
         }
         return done(null, user);

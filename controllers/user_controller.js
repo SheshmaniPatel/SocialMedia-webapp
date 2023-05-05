@@ -19,12 +19,14 @@ module.exports.update = async (request, response) => {
   try {
     if (request.user.id == request.params.id) {
       let user = await User.findByIdAndUpdate(request.params.id, request.body);
+      request.flash("success","Profile Updated succesfully!!");
       return response.redirect("back");
     } else {
+      request.flash("error","Can't update the Profile");
       return response.status(401).send("Unauthorised");
     }
   } catch (error) {
-    console.log("Error", error);
+    request.flash("error",error);
     return;
   }
 };
@@ -75,15 +77,19 @@ module.exports.create = async (request, response) => {
 
 // sign-In and create the session for user
 module.exports.createsession = (request, response) => {
+  request.flash("success", "Logged in succesfully ");
   return response.redirect("/");
 };
 
 //signout
 module.exports.destroySession = (request, response, next) => {
+  request.flash("success","You are Logged out")
   request.logout((err) => {
     if (err) {
       return next(err);
-    }
+    } 
+   
   });
+ 
   return response.redirect("/");
 };
