@@ -34,6 +34,15 @@ module.exports.destroy = async (request, response) => {
 
       await Comment.deleteMany({ post: request.params.id });
 
+      if(request.xhr){
+        return response.status(200).json({
+          data:{
+            post_id:request.params.id
+          },
+          massage:"Post deleted  !"
+        })
+      }
+
       request.flash(
         "success",
         "Post and associated commets deleted succesfully!! "

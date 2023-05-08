@@ -12,6 +12,7 @@ module.exports.home = async (request, response) => {
   try {
     let posts = await post
       .find({})
+      .sort("-createdAt")
       .populate("user")
       .populate({
         path: "comments",

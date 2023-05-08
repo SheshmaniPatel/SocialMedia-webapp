@@ -16,18 +16,45 @@ module.exports.profile = async (request, response) => {
 
 // For updating the profile details
 module.exports.update = async (request, response) => {
-  try {
-    if (request.user.id == request.params.id) {
-      let user = await User.findByIdAndUpdate(request.params.id, request.body);
-      request.flash("success","Profile Updated succesfully!!");
+  // try {
+  //   if (request.user.id == request.params.id) {
+  //     let user = await User.findByIdAndUpdate(request.params.id, request.body);
+  //     request.flash("success","Profile Updated succesfully!!");
+  //     return response.redirect("back");
+  //   } else {
+  //     request.flash("error","Can't update the Profile");
+  //     return response.status(401).send("Unauthorised");
+  //   }
+  // } catch (error) {
+  //   request.flash("error",error);
+  //   return;
+  // }
+
+  if (request.user.id == request.params.id) {
+    try {
+      let user = await User.findById(request.params.id);
+      User.uploadedAvatar(request, response, (err) => {
+        if (err) {
+          console.log("***********Multer error :", err);
+        }
+
+        user.name = request.body.name;
+        user.email = request.body.email;
+
+        if (request.file) {
+          //this is saving the path of uploaded file into the avatar field in user
+          user.avatar = User.avatarpath + "/" + request.file.filename;
+        }
+        user.save();
+        return response.redirect("back");
+      });
+    } catch (error) {
+      console.log("Error", error);
       return response.redirect("back");
-    } else {
-      request.flash("error","Can't update the Profile");
-      return response.status(401).send("Unauthorised");
     }
-  } catch (error) {
-    request.flash("error",error);
-    return;
+  } else {
+    request.flash("error", "Can't update the Profile");
+    return response.status(401).send("Unauthorised");
   }
 };
 
@@ -83,13 +110,12 @@ module.exports.createsession = (request, response) => {
 
 //signout
 module.exports.destroySession = (request, response, next) => {
-  request.flash("success","You are Logged out")
+  request.flash("success", "You are Logged out");
   request.logout((err) => {
     if (err) {
       return next(err);
-    } 
-   
+    }
   });
- 
+
   return response.redirect("/");
 };

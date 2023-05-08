@@ -19,13 +19,16 @@ app.use(cookieParser());
 
 //Calling static for use
 app.use(express.static("./assets"));
+app.use("/uploads",express.static(__dirname + "/uploads"))
+
+
+//Calling express layout before routes
+app.use(expresslayout);
 
 //Extracting style and script from sub pages to layouts
 app.set("layout extractStyles", true);
 app.set("layout extractScripts", true);
 
-//Calling express layout before routes
-app.use(expresslayout);
 
 //Setup our view engine
 app.set("view engine", "ejs");
