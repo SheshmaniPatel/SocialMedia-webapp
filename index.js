@@ -6,6 +6,7 @@ const expresslayout = require("express-ejs-layouts");
 const db = require("./config/mongoose");
 
 //used for session cookie
+
 const session = require("express-session");
 const passport = require("passport");
 const passportLocal = require("./config/passport_local_startgy");
