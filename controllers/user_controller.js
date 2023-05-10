@@ -1,5 +1,7 @@
 const passport = require("passport");
 const User = require("../models/user");
+const fs=require("fs");
+const path=require("path");
 
 module.exports.profile = async (request, response) => {
   try {
@@ -42,6 +44,10 @@ module.exports.update = async (request, response) => {
         user.email = request.body.email;
 
         if (request.file) {
+          if(user.avatar){
+            fs.unlinkSync(path.join(__dirname,"..",user.avatar));
+          }
+
           //this is saving the path of uploaded file into the avatar field in user
           user.avatar = User.avatarpath + "/" + request.file.filename;
         }
