@@ -50,6 +50,7 @@ module.exports.update = async (request, response) => {
 
           //this is saving the path of uploaded file into the avatar field in user
           user.avatar = User.avatarpath + "/" + request.file.filename;
+          
         }
         user.save();
         return response.redirect("back");
