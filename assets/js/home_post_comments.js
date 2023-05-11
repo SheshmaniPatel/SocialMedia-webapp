@@ -61,7 +61,7 @@ class PostComments{
                         <p>
                             
                             <small>
-                                <a class="delete-comment-button" href="/comments/destroy/${comment._id}">X</a>
+                                <a class="delete-comment-button" href="/comments/destroy/${comment._id}">&#9249</a>
                             </small>
                             
                             ${comment.content}

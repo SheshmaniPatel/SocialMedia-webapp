@@ -9,6 +9,9 @@ module.exports.create = async function (request, response) {
     });
 
     if (request.xhr) {
+     // if we want to populate just the name of the user (we'll not want to send the password in the API), this is how we do it!
+    //  post = await post.populate('user', 'name').execPopulate();
+
       return response.status(200).json({
         data: {
           post: post,
@@ -19,8 +22,11 @@ module.exports.create = async function (request, response) {
 
     request.flash("success", "Post created");
     return response.redirect("back");
+
   } catch (error) {
     request.flash("error", error);
+    // added this to view the error on console as well
+    console.log(error);
     return response.redirect("back");
   }
 };
@@ -34,13 +40,13 @@ module.exports.destroy = async (request, response) => {
 
       await Comment.deleteMany({ post: request.params.id });
 
-      if(request.xhr){
+      if (request.xhr) {
         return response.status(200).json({
-          data:{
-            post_id:request.params.id
+          data: {
+            post_id: request.params.id,
           },
-          massage:"Post deleted  !"
-        })
+          massage: "Post deleted  !",
+        });
       }
 
       request.flash(

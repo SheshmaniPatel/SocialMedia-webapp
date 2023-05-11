@@ -50,7 +50,7 @@
             </p>
             <div class="post-comments">
               
-              <form action="/comments/create" method="POST">
+              <form id="post-${ post._id }-comments-form" action="/comments/create" method="POST">
                 <input
                   type="text"
                   name="content"
