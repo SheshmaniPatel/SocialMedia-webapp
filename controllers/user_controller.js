@@ -53,6 +53,7 @@ module.exports.update = async (request, response) => {
           
         }
         user.save();
+        request.flash("success","Profile Updated succesfully!!");
         return response.redirect("back");
       });
     } catch (error) {
